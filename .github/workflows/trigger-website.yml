@@ -12,24 +12,45 @@ permissions:
 
 jobs:
   trigger:
+    name: Trigger public-hub deployment
     runs-on: ubuntu-latest
 
     steps:
       - name: Trigger website build
+        shell: bash
         env:
           WEBSITE_TOKEN: ${{ secrets.WEBSITE_DISPATCH_TOKEN }}
+          CONTENT_SHA: ${{ github.sha }}
         run: |
           set -euo pipefail
 
-          curl --fail-with-body \
+          if [[ -z "$WEBSITE_TOKEN" ]]; then
+            echo "::error title=Missing secret::WEBSITE_DISPATCH_TOKEN is not configured."
+            exit 1
+          fi
+
+          PAYLOAD="$(
+            jq -n \
+              --arg ref "main" \
+              --arg content_sha "$CONTENT_SHA" \
+              '{
+                ref: $ref,
+                inputs: {
+                  content_sha: $content_sha
+                }
+              }'
+          )"
+
+          curl \
+            --fail-with-body \
+            --silent \
+            --show-error \
             --request POST \
-            --url "https://api.github.com/repos/catalinVeghes/CU-DSCI-CROSSROADS/actions/workflows/deploy.yml/dispatches" \
+            --url "https://api.github.com/repos/CROSSROADS-DS/public-hub/actions/workflows/deploy.yml/dispatches" \
             --header "Accept: application/vnd.github+json" \
             --header "Authorization: Bearer ${WEBSITE_TOKEN}" \
-            --header "X-GitHub-Api-Version: 2022-11-28" \
-            --data "{
-              \"ref\": \"main\",
-              \"inputs\": {
-                \"content_sha\": \"${GITHUB_SHA}\"
-              }
-            }"
+            --header "X-GitHub-Api-Version: 2026-03-10" \
+            --header "Content-Type: application/json" \
+            --data "$PAYLOAD"
+
+          echo "Triggered public-hub using content commit ${CONTENT_SHA}."
