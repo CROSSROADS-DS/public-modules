@@ -2,22 +2,21 @@
 
 This repository contains the learning content used by the Data Science CROSSROADS website.
 
-Each folder inside `public_modules/` represents one module and may include:
+Each top-level folder in this repository represents a separate learning module and may contain the following structure:
 
 ```text
-public_modules/
-└── module-name/
-    ├── README.md
-    ├── metadata.yml
-    ├── notebooks/
-    ├── data/
-    └── images/
+module-name/
+├── README.md
+├── metadata.yml
+├── notebooks/
+├── data/
+└── images/
 ```
 
-* `README.md` is the module’s main page.
-* `notebooks/` contains Jupyter notebooks.
-* `data/` contains supporting files such as CSV datasets.
-* `metadata.yml` contains module-specific metadata.
-* `images/` contains figures and other media.
+* `README.md` contains the module’s main content and serves as its landing page.
+* `metadata.yml` contains module-specific metadata and configuration.
+* `notebooks/` contains Jupyter notebooks associated with the module.
+* `data/` contains supporting files, such as CSV datasets.
+* `images/` contains figures, diagrams, and other media used by the module.
 
-Changes pushed to `public_modules/` automatically trigger a rebuild and deployment of the CROSSROADS website.
+Changes pushed to the `main` branch of this repository automatically trigger a rebuild and deployment of the Data Science CROSSROADS website.
