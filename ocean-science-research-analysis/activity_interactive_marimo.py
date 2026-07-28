@@ -1,3 +1,16 @@
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#     "marimo>=0.23.15",
+#     "pandas",
+#     "openpyxl",
+#     "numpy",
+#     "matplotlib",
+#     "seaborn",
+#     "altair",
+#     "networkx",
+# ]
+# ///
 import marimo
 
 __generated_with = "0.23.15"
@@ -93,7 +106,7 @@ def _():
     import csv
     import sys
     import numpy as np
-    import dataframe_image as dfi
+    #import dataframe_image as dfi
     import matplotlib.pyplot as plt
     import matplotlib.patches as mpatches
     import seaborn as sns
