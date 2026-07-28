@@ -148,8 +148,11 @@ def _(plt, sns):
 @app.cell
 def _():
     import networkx as nx
-    from networkx.drawing.nx_agraph import graphviz_layout
-    from pyvis import network as net
+    try:
+        from networkx.drawing.nx_agraph import graphviz_layout
+        from pyvis import network as net
+    except ModuleNotFoundError:
+        print("Network visualization packages not available in browser mode.")
 
     return (nx,)
 
@@ -188,7 +191,7 @@ def _(mo):
 
 @app.cell
 def _(pd):
-    dataset = pd.read_excel('module_dataset.xlsx')
+    dataset = pd.read_excel('https://raw.githubusercontent.com/cjschrader/public-modules/python-files/ocean-science-research-analysis/module_dataset.xlsx')
     dataset.head()
     return (dataset,)
 
