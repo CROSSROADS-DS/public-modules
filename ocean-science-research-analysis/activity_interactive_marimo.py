@@ -272,7 +272,7 @@ def _(alt, dataset):
         )
         .interactive()
     )
-    chart.display()
+    chart
     return
 
 
@@ -338,7 +338,7 @@ def _(alt, dataset):
         )
         .interactive()   
     )
-    bar_chart.display()
+    bar_chart
     return
 
 
