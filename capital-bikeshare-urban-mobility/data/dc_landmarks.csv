@@ -1,0 +1,11 @@
+landmark,short_label,latitude,longitude,category,label_x_offset,label_y_offset,show_by_default,source_name,source_url
+Lincoln Memorial,Lincoln Memorial,38.889271,-77.049732,memorial,0.0007,0.0005,TRUE,National Park Service,https://www.nps.gov/planyourvisit/event-details.htm?id=20E95621-C801-29EC-8D514DA27A4B20BD
+Washington Monument,Washington Monument,38.889463,-77.035237,monument,0.0007,0.0006,TRUE,National Park Service,https://www.nps.gov/wamo/planyourvisit/directions.htm
+Thomas Jefferson Memorial,Jefferson Memorial,38.881381,-77.036562,memorial,0.0007,-0.0008,TRUE,National Park Service,https://www.nps.gov/thje/index.htm
+Martin Luther King Jr. Memorial,MLK Jr. Memorial,38.886230,-77.044230,memorial,0.0007,-0.0008,TRUE,National Park Service,https://www.nps.gov/mlkm/index.htm
+The White House,White House,38.897676,-77.036530,civic building,0.0007,0.0006,TRUE,The White House,https://www.whitehouse.gov/about-the-white-house/the-grounds/the-white-house/
+United States Capitol,U.S. Capitol,38.889939,-77.009050,civic building,0.0007,0.0006,TRUE,Architect of the Capitol,https://www.aoc.gov/explore-capitol-campus/buildings-grounds/capitol-building
+Smithsonian Institution Building,Smithsonian Castle,38.888835,-77.026129,museum and institution,0.0007,-0.0008,TRUE,Smithsonian Institution,https://www.si.edu/museums/smithsonian-institution-building
+National Museum of African American History and Culture,NMAAHC,38.891060,-77.032818,museum,0.0007,0.0006,TRUE,Smithsonian Institution,https://nmaahc.si.edu/
+National Gallery of Art,National Gallery of Art,38.891298,-77.019965,museum,0.0007,0.0006,TRUE,National Gallery of Art,https://www.nga.gov/visit.html
+Washington Union Station,Union Station,38.897095,-77.006333,transportation hub,0.0007,0.0006,TRUE,Union Station Washington DC,https://www.unionstationdc.com/
