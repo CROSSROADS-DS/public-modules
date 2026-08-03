@@ -1,0 +1,116 @@
+schema_version: 1
+
+slug: capital-bikeshare-urban-mobility
+title: Capital Bikeshare — Urban Mobility Across Space and Time
+short_description: >-
+  Investigate where and when bikeshare trips occur, develop evidence-based
+  service insights, and explore how data science can support urban mobility.
+
+status: draft
+featured: false
+
+audience:
+  level: introductory
+  estimated_time_minutes: 60
+  extended_time_minutes: 90
+  programming_required: false
+  prior_programming_expected: false
+
+format:
+  primary: jupyter-notebook
+  runtime: jupyterlite
+  guided: true
+  independent_exploration: true
+
+primary_disciplines:
+  - Urban Studies
+  - Geography
+
+secondary_disciplines:
+  - Environmental Studies
+  - Sociology
+  - Economics
+  - Public Policy
+  - Business and Management
+
+skills:
+  - Question formulation and refinement
+  - Dataset evaluation
+  - Spatial data exploration
+  - Temporal data exploration
+  - Data visualization
+  - Evidence-based reasoning
+  - Interpretation and limitations
+  - Introductory clustering
+
+learning_goals:
+  - Explain how trip data can support decisions about an urban transportation service.
+  - Formulate and refine questions that can be investigated with available data.
+  - Interpret spatial and temporal patterns in bikeshare activity.
+  - Distinguish observations, interpretations, and possible service implications.
+  - Identify limitations and additional data needs.
+  - Use helper functions to conduct a guided and independent investigation.
+
+scenario:
+  type: hypothetical
+  organization: Capital Bikeshare
+  description: >-
+    Students act as analysts helping Capital Bikeshare understand how its
+    service is currently used and consider how it might better serve the community.
+
+datasets:
+  - name: 2025 four-month Capital Bikeshare trip sample
+    path: data/2025_four_month_sampled_trips.csv
+    unit_of_analysis: Trip
+    source_type: Prepared sample of public Capital Bikeshare trip data
+    summary: >-
+      A browser-friendly sample of trips from January, April, July, and October
+      2025, including trip times, station locations, rider type, bike type, and duration.
+    limitations:
+      - Monthly sample sizes differ, so raw monthly totals should not be used to infer seasonal ridership.
+      - Completed trips do not measure unmet demand or failed attempts to find a bike or dock.
+      - Trip purpose and detailed customer characteristics are not recorded.
+  - name: Washington, DC landmarks
+    path: data/dc_landmarks.csv
+    unit_of_analysis: Landmark
+    source_type: Curated coordinates from official public sources
+    summary: >-
+      Selected recognizable locations used to provide geographic orientation on central-Washington maps.
+
+software:
+  language: Python
+  interface: Jupyter notebook
+  libraries:
+    - pandas
+    - numpy
+    - matplotlib
+  helper_library: tool_library.py
+
+paths:
+  module_guide: module_guide.md
+  activity_guide: activity_guide.md
+  notebook: activity_interaction_python.ipynb
+  helper_library: tool_library.py
+  data_directory: data
+  images_directory: images
+
+contributors:
+  - CROSSROADS Project Team
+
+keywords:
+  - bikeshare
+  - urban mobility
+  - transportation
+  - spatial data
+  - temporal data
+  - data visualization
+  - clustering
+  - evidence-based decision making
+
+publication:
+  show_in_catalog: true
+  show_disciplines: true
+  show_skills: true
+  show_level: true
+  show_estimated_time: true
+  show_programming_requirement: true
