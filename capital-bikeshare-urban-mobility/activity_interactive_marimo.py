@@ -4,6 +4,7 @@
 #     "marimo>=0.23.16",
 #     "matplotlib==3.11.1",
 #     "pandas==3.0.5",
+#     "polars==1.43.2",
 # ]
 # ///
 
@@ -89,10 +90,13 @@ def _(mo):
 
 
 @app.cell
-def _():
+def _(mo):
     import tool_library as tl
+    import polars as pl
 
-    trips = tl.load_bikeshare_data("data/2025_four_month_sampled_trips.csv")
+    path_to_csv = mo.notebook_location() / "data" / "2025_four_month_sampled_trips.csv"
+    #trip_csv = pl.read_csv(str(path_to_csv))
+    trips = tl.load_bikeshare_data(path_to_csv)
     trips.head()
     return tl, trips
 
