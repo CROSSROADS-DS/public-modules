@@ -53,4 +53,44 @@ jobs:
             --header "Content-Type: application/json" \
             --data "$PAYLOAD"
 
-          echo "Triggered public-hub using content commit ${CONTENT_SHA}."
+          name: Rebuild CROSSROADS Hub website
+
+      - name: Trigger marimo app deployment
+        shell: bash
+        env:
+          MARIMO_TOKEN: ${{ secrets.MARIMO_DISPATCH_TOKEN }}
+          CONTENT_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+
+          if [[ -z "$MARIMO_TOKEN" ]]; then
+            echo "::error title=Missing secret::MARIMO_DISPATCH_TOKEN is not configured."
+            exit 1
+          fi
+
+          PAYLOAD="$(
+            jq -n \
+              --arg ref "main" \
+              --arg modules_ref "$CONTENT_SHA" \
+              '{
+                ref: $ref,
+                inputs: {
+                  modules_ref: $modules_ref
+                }
+              }'
+          )"
+
+          # NOTE: Change 'marimo.yml' below if the workflow file name inside CROSSROADS-DS/marimo is different
+          curl \
+            --fail-with-body \
+            --silent \
+            --show-error \
+            --request POST \
+            --url "https://api.github.com/repos/CROSSROADS-DS/marimo/actions/workflows/deploy.yml/dispatches" \
+            --header "Accept: application/vnd.github+json" \
+            --header "Authorization: Bearer ${MARIMO_TOKEN}" \
+            --header "X-GitHub-Api-Version: 2026-03-10" \
+            --header "Content-Type: application/json" \
+            --data "$PAYLOAD"
+
+          echo "Triggered marimo using content commit ${CONTENT_SHA}."
