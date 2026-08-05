@@ -92,11 +92,25 @@ def _(mo):
 @app.cell
 def _(mo):
     import tool_library as tl
-    import polars as pl
+    import urllib.request
+    from pathlib import Path
 
     path_to_csv = mo.notebook_location() / "data" / "2025_four_month_sampled_trips.csv"
-    #trip_csv = pl.read_csv(str(path_to_csv))
-    trips = tl.load_bikeshare_data(path_to_csv)
+    path_str = str(path_to_csv)
+
+    if path_str.startswith(("http://", "https://")):
+        with urllib.request.urlopen(path_str) as response:
+            csv_bytes = response.read()
+
+        wasm_disk_path = Path("/tmp/local_sampled_trips.csv")
+        wasm_disk_path.parent.mkdir(parents=True, exist_ok=True)
+
+        with open(wasm_disk_path, "wb") as f:
+            f.write(csv_bytes)
+
+        trips = tl.load_bikeshare_data(wasm_disk_path)
+    else:
+        trips = tl.load_bikeshare_data(path_to_csv)
     mo.show_code(trips.head(), position="above")
     return tl, trips
 
