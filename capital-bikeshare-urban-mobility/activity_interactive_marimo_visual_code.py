@@ -1,5 +1,5 @@
 # /// script
-# requires-python = ">=3.14"
+# requires-python = ">=3.11"
 # dependencies = [
 #     "marimo>=0.23.16",
 #     "matplotlib==3.11.1",
@@ -79,6 +79,12 @@ def _(mo):
 def _(mo):
     mo.md(r"""
     ## 1. Load the trip data
+
+    ### Purpose of the code
+
+    The code below imports the helper functions prepared for this activity and loads the trip file from the `data` folder. You do not need to understand the internal programming details. Focus on the function name, the information inside the parentheses, and the result returned by the function.
+
+    Here, `load_bikeshare_data(...)` reads the file and performs routine preparation so the data are ready for investigation.
     """)
     return
 
@@ -91,7 +97,7 @@ def _(mo):
     path_to_csv = mo.notebook_location() / "data" / "2025_four_month_sampled_trips.csv"
     #trip_csv = pl.read_csv(str(path_to_csv))
     trips = tl.load_bikeshare_data(path_to_csv)
-    trips.head()
+    mo.show_code(trips.head(), position="above")
     return tl, trips
 
 
@@ -111,15 +117,22 @@ def _(mo):
 def _(mo):
     mo.md(r"""
     ## 2. Evaluate what the dataset can support
+
+    ### Purpose of the code
+
+    `describe_bikeshare_data(...)` summarizes the dataset's scope, completeness, and month-level record counts. This evidence helps us decide which questions are answerable and which claims would go beyond the available data.
     """)
     return
 
 
-@app.cell
+@app.cell(hide_code=True)
 def _(mo, tl, trips):
     scope_summary, monthly_sample = tl.describe_bikeshare_data(trips)
 
-    mo.vstack([scope_summary, monthly_sample])
+    scope_summary
+    monthly_sample
+    scope_monthly = mo.vstack([scope_summary, monthly_sample])
+    mo.show_code(scope_monthly, position="above")
     return
 
 
@@ -169,6 +182,10 @@ def _(mo):
 def _(mo):
     mo.md(r"""
     ## 4. What does the station network reveal about the geographic reach of the service?
+
+    ### Purpose of the code
+
+    `plot_station_network(...)` maps stations represented as trip origins. Setting `area="all"` asks the helper function to show the full geographic extent rather than focusing only on central Washington.
     """)
     return
 
@@ -181,9 +198,8 @@ def _(mo, tl, trips):
         show_landmarks=False,
     )
 
-    stations_ouput = f"Stations represented as trip origins: {len(all_stations):,}"
-    mo.vstack([stations_ouput, all_stations, network_ax])
-
+    station_output = mo.vstack([mo.md(f"Stations represented as trip origins: {len(all_stations):,}"), network_ax])
+    mo.show_code(station_output, position="above")
     return
 
 
@@ -207,6 +223,10 @@ def _(mo):
 def _(mo):
     mo.md(r"""
     ## 5. What does the station distribution reveal about availability across central Washington?
+
+    ### Purpose of the code
+
+    The same helper function is used again, but `area="central_dc"` narrows the view. `show_landmarks=True` adds selected landmarks to help us interpret station locations.
     """)
     return
 
@@ -219,8 +239,8 @@ def _(mo, tl, trips):
         show_landmarks=True,
     )
 
-    central_stations_output = f"Central-Washington stations represented as trip origins: {len(central_stations):,}"
-    mo.vstack([central_stations_output, central_stations, central_ax])
+    central_stations_output = mo.vstack([mo.md(f"Central-Washington stations represented as trip origins: {len(central_stations):,}"), central_ax])
+    mo.show_code(central_stations_output, position="above")
     return
 
 
@@ -244,6 +264,10 @@ def _(mo):
 def _(mo):
     mo.md(r"""
     ## 6. How is departure activity distributed among central-Washington stations?
+
+    ### Purpose of the code
+
+    `plot_station_activity(...)` counts trips beginning at each station and maps that activity. `trip_end="start"` focuses on departures. Marker size represents the number of departures, and the returned table lists the most active stations.
     """)
     return
 
@@ -257,7 +281,8 @@ def _(mo, tl, trips):
         show_landmarks=True,
     )
 
-    mo.vstack([central_activity[["station", "departures"]].head(12), activity_ax])
+    central_activity_output = mo.vstack([central_activity[["station", "departures"]].head(12), activity_ax])
+    mo.show_code(central_activity_output, position="above")
     return
 
 
@@ -281,6 +306,10 @@ def _(mo):
 def _(mo):
     mo.md(r"""
     ## 7. What does the daily pattern reveal about when use is greatest?
+
+    ### Purpose of the code
+
+    `plot_trip_times(...)` summarizes trips by start hour. The function creates an hourly chart and returns the counts used to make it.
     """)
     return
 
@@ -296,7 +325,7 @@ def _(mo, tl, trips):
     result_df = hourly_activity.to_frame("trips").T
     result_df.columns = result_df.columns.astype(str)
 
-    mo.vstack([result_df, hour_ax])
+    mo.show_code(result_df, position="above")
     return
 
 
@@ -320,6 +349,10 @@ def _(mo):
 def _(mo):
     mo.md(r"""
     ## 8. How do weekday and weekend timing patterns differ?
+
+    ### Purpose of the code
+
+    The helper function again summarizes trips by start hour, but `compare="is_weekend"` creates separate weekday and weekend patterns. `percent=True` converts each group's counts into percentages, allowing us to compare shapes even though the groups contain different numbers of trips.
     """)
     return
 
@@ -337,7 +370,7 @@ def _(mo, tl, trips):
     result_weekday_weekend = weekday_weekend.T
     result_weekday_weekend.columns = result_weekday_weekend.columns.astype(str)
 
-    mo.vstack([result_weekday_weekend, daytype_ax])
+    mo.show_code(result_weekday_weekend, position="above")
     return
 
 
@@ -361,6 +394,10 @@ def _(mo):
 def _(mo):
     mo.md(r"""
     ## 9. How does the geography of activity change across time contexts?
+
+    ### Purpose of the first code cell
+
+    The next call reuses `plot_station_activity(...)` with temporal filters. `day_type="weekday"` and `start_hour=(7, 9)` focus the map on weekday-morning departures.
     """)
     return
 
@@ -376,7 +413,8 @@ def _(mo, tl, trips):
         title="Weekday morning departures (7–9 AM)",
     )
 
-    mo.vstack([weekday_morning[["station", "departures"]].head(8), weekday_morning_ax])
+    weekday_morning_output = mo.vstack([weekday_morning[["station", "departures"]].head(8), weekday_morning_ax])
+    mo.show_code(weekday_morning_output, position="above")
     return
 
 
@@ -386,6 +424,10 @@ def _(mo):
     ### Examine the first output
 
     Notice which stations have the largest markers during weekday mornings and use the table to confirm the leading locations.
+
+    ### Purpose of the second code cell
+
+    The next call changes the filters to weekend trips starting from 11 AM through 3 PM. Keeping the remaining settings the same makes the two contexts comparable.
     """)
     return
 
@@ -401,7 +443,8 @@ def _(mo, tl, trips):
         title="Weekend midday and afternoon departures (11 AM–3 PM)",
     )
 
-    mo.vstack([weekend_midday[["station", "departures"]].head(8), weekend_midday_ax])
+    weekend_midday_ouput = mo.vstack([weekend_midday[["station", "departures"]].head(8), weekend_midday_ax])
+    mo.show_code(weekend_midday_ouput, position="above")
     return
 
 
@@ -437,6 +480,12 @@ def _(mo):
     # Optional guided data science extension: clustering stations
 
     Capital Bikeshare manages many stations, making it difficult to examine each one separately. Clustering provides one way to summarize stations with similar hourly activity levels.
+
+    > **Question before running the code:** What types of station groups do you expect to emerge when stations are grouped using their 24 hourly departure counts? Explain your reasoning.
+
+    ### Purpose of the code
+
+    `cluster_stations_by_time(...)` represents each eligible station by 24 hourly trip counts and groups stations with similar count patterns. The function displays average cluster profiles and a map. On the map, color indicates cluster membership and marker size indicates total departures.
     """)
     return
 
@@ -450,8 +499,9 @@ def _(mo, tl, trips):
         minimum_trips=40,
     )
 
-
-    mo.vstack([cluster_results["cluster_summary"], cluster_results["assignments"][["station", "total_trips", "cluster_label"]].head(15), cluster_results["profile_ax"], cluster_results["map_ax"]])
+    #cluster_results["assignments"][["station", "total_trips", "cluster_label"]].head(15)
+    cluster_output = mo.vstack([cluster_results["cluster_summary"], cluster_results["assignments"][["station", "total_trips", "cluster_label"]].head(15), cluster_results["profile_ax"], cluster_results["map_ax"]])
+    mo.show_code(cluster_output, position="above")
     return
 
 
@@ -489,6 +539,10 @@ def _(mo):
 def _(mo):
     mo.md(r"""
     ## 11. How do the daily timing patterns of members and casual riders differ?
+
+    ### Purpose of the code
+
+    The familiar `plot_trip_times(...)` function is used again. This time, `compare="member_casual"` creates a separate hourly percentage pattern for each rider type.
     """)
     return
 
@@ -505,8 +559,9 @@ def _(mo, tl, trips):
 
     result_rider_time = rider_time.T
     result_rider_time.columns = result_rider_time.columns.astype(str)
+    result_rider_time_output = mo.vstack([result_rider_time, rider_time_ax])
 
-    mo.vstack([result_rider_time, rider_time_ax])
+    mo.show_code(result_rider_time_output, position="above")
     return
 
 
@@ -530,6 +585,10 @@ def _(mo):
 def _(mo):
     mo.md(r"""
     ## 12. How does the rider-type comparison change between weekdays and weekends?
+
+    ### Purpose of the first code cell
+
+    This call adds `day_type="weekday"` so that only weekday trips are compared. The remaining settings stay the same.
     """)
     return
 
@@ -547,8 +606,9 @@ def _(mo, tl, trips):
 
     result_weekday_rider_time = weekday_rider_time.T
     result_weekday_rider_time.columns = result_weekday_rider_time.columns.astype(str)
+    result_weekday_rider_output = mo.vstack([result_weekday_rider_time, weekday_rider_ax])
 
-    mo.vstack([result_weekday_rider_time, weekday_rider_ax])
+    mo.show_code(result_weekday_rider_output, position="above")
     return
 
 
@@ -558,6 +618,10 @@ def _(mo):
     ### Examine the weekday output
 
     Notice the timing and relative prominence of the member and casual peaks.
+
+    ### Purpose of the second code cell
+
+    The next call changes the day-type filter to `"weekend"`. Reusing the same function with one changed setting supports a direct comparison.
     """)
     return
 
@@ -575,8 +639,9 @@ def _(mo, tl, trips):
 
     result_weekend_rider_time = weekend_rider_time.T
     result_weekend_rider_time.columns = result_weekend_rider_time.columns.astype(str)
+    result_weekend_rider_output = mo.vstack([result_weekend_rider_time, weekend_rider_ax])
 
-    mo.vstack([result_weekend_rider_time, weekend_rider_ax])
+    mo.show_code(result_weekend_rider_output, position="above")
     return
 
 
@@ -600,22 +665,36 @@ def _(mo):
 def _(mo):
     mo.md(r"""
     ## 13. How do trip durations differ between members and casual riders?
+
+    ### Purpose of the code
+
+    `plot_trip_durations(...)` compares trip-duration distributions. The `compare` setting separates members and casual riders, while `max_minutes=40` keeps the main part of the skewed distributions readable. The returned table provides numerical summaries.
     """)
     return
 
 
 @app.cell
-def _(mo, tl, trips):
+def _():
     import matplotlib.axes
 
-    _original_boxplot = matplotlib.axes.Axes.boxplot
-    def _patched_boxplot(self, *args, **kwargs):
-        if 'labels' in kwargs:
-            kwargs['tick_labels'] = kwargs.pop('labels')
-        return _original_boxplot(self, *args, **kwargs)
+    if not hasattr(matplotlib.axes.Axes, "is_patched_for_labels"):
+        # Store the backup as a class attribute rather than a top-level notebook variable
+        matplotlib.axes.Axes.saved_original_boxplot = matplotlib.axes.Axes.boxplot
 
-    matplotlib.axes.Axes.boxplot = _patched_boxplot
+        def patched_boxplot(self, *args, **kwargs):
+            if 'labels' in kwargs:
+                kwargs['tick_labels'] = kwargs.pop('labels')
+            # Call the backup from the class namespace
+            return matplotlib.axes.Axes.saved_original_boxplot(self, *args, **kwargs)
 
+        # Apply the patch globally in memory
+        matplotlib.axes.Axes.boxplot = patched_boxplot
+        matplotlib.axes.Axes.is_patched_for_labels = True
+    return
+
+
+@app.cell
+def _(mo, tl, trips):
     rider_duration_ax, rider_duration = tl.plot_trip_durations(
         trips,
         compare="member_casual",
@@ -623,7 +702,8 @@ def _(mo, tl, trips):
         title="Trip duration by rider type",
     )
 
-    mo.vstack([rider_duration, rider_duration_ax])
+    rider_duration_output = mo.vstack([rider_duration, rider_duration_ax])
+    mo.show_code(rider_duration_output, position="above")
     return
 
 
