@@ -53,7 +53,7 @@ jobs:
             --header "Content-Type: application/json" \
             --data "$PAYLOAD"
 
-          name: Rebuild CROSSROADS Hub website
+          echo "Triggered public-hub using content commit ${CONTENT_SHA}."
 
       - name: Trigger marimo app deployment
         shell: bash
@@ -80,7 +80,6 @@ jobs:
               }'
           )"
 
-          # NOTE: Change 'marimo.yml' below if the workflow file name inside CROSSROADS-DS/marimo is different
           curl \
             --fail-with-body \
             --silent \
