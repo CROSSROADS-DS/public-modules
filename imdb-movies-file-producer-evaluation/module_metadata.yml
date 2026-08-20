@@ -1,0 +1,68 @@
+schema_version: 1
+
+slug: imdb-movies-film-producer-evaluation
+title: IMDb Movies Film Producer Evaluation
+short_description: >-
+  Analyze IMDb movie data to uncover patterns and insights about 
+  film production, performance, and audience reception.
+
+status: draft
+featured: false
+
+audience:
+  level: introductory
+  estimated_time_minutes: 60
+  extended_time_minutes: 90
+  programming_required: false
+  prior_programming_expected: false
+
+format:
+  primary: jupyter-notebook
+  runtime: jupyterlite
+  guided: true
+  independent_exploration: true
+
+preliminary_disciplines:
+  - Arts
+  - Investment Analysis
+
+secondary_disciplines:
+  - Economics
+  - Business and Management
+
+skills:
+  - Question formulation and refinement
+  - Dataset evaluation
+  - Data visualization
+  - Evidence-based reasoning
+  - Interpretation and limitations
+  
+learning_goals:
+  - Explain how movie data can support decisions for a film production company.
+  - Formulate and refine questions that can be investigated with available data.
+  - Interpret patterns in movie performance.
+  - Distinguish observations, interpretations, and possible service implications.
+  - Identify limitations and additional data needs.
+  - Use helper functions to conduct a guided and independent investigation.
+
+
+software:
+  language: Python
+  interface: Jupyter notebook
+  libraries:
+    - pandas
+    - numpy
+    - matplotlib
+    - IPython
+  helper_library: tool_library.py
+
+paths:
+  module_guide: module_guide.md
+  activity_guide: activity_guide.md
+  notebook: activity_interaction_python.ipynb
+  helper_library: tool_library.py
+  data_directory: data
+
+contributors:
+  - CROSSROADS Project Team
+
