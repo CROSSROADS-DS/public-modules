@@ -22,7 +22,7 @@ format:
   guided: true
   independent_exploration: true
 
-preliminary_disciplines:
+primary_disciplines:
   - Sports Analytics
   - Investment Analysis
 
