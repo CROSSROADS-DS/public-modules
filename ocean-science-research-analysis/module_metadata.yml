@@ -21,10 +21,8 @@ activity:
   scenario_optional: false
   guided: true
   interactive_notebook: activity_interactive_python.ipynb
-  web_version: activity_web.html
 
 primary_disciplines:
-  - Data Science
   - Environmental Science
   - Public Policy
 
