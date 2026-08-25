@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   trigger:
-    name: Trigger public-hub deployment
+    name: Trigger module-hub deployment
     runs-on: ubuntu-latest
 
     steps:
@@ -46,11 +46,11 @@ jobs:
             --silent \
             --show-error \
             --request POST \
-            --url "https://api.github.com/repos/CROSSROADS-DS/public-hub/actions/workflows/deploy.yml/dispatches" \
+            --url "https://api.github.com/repos/CROSSROADS-DS/module-hub/actions/workflows/deploy.yml/dispatches" \
             --header "Accept: application/vnd.github+json" \
             --header "Authorization: Bearer ${WEBSITE_TOKEN}" \
             --header "X-GitHub-Api-Version: 2026-03-10" \
             --header "Content-Type: application/json" \
             --data "$PAYLOAD"
 
-          echo "Triggered public-hub using content commit ${CONTENT_SHA}."
+          echo "Triggered module-hub using content commit ${CONTENT_SHA}."
