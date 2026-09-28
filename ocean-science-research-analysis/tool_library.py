@@ -7,8 +7,7 @@ main activity notebook can focus on questions, evidence, interpretation, and
 limitations."""
 
 
-###-----pre amble stuff------
-
+#-----import relevant libraries------
 from pathlib import Path
 import pandas as pd
 import numpy as np
@@ -28,21 +27,19 @@ import matplotlib.ticker as ticker
 import math
 import seaborn as sns
 
+#-------graphical plotting parameters----------
 plt.rcParams["font.family"] = "Arial"
 plt.rcParams['figure.constrained_layout.use'] = False
 plt.rcParams['axes.formatter.limits'] = (-5,5)
 sns.set(rc={'legend.frameon':False})
 sns.set_style("whitegrid", {"axes.edgecolor": ".0", "axes.facecolor":"none"})
-
 labelsize = 12
 rcParams['xtick.labelsize'] = labelsize
 rcParams['ytick.labelsize'] = labelsize 
 rcParams['figure.titlesize'] = 24
-plt.rc('legend',fontsize=12) # using a size in points
-plt.rc('axes', labelsize=labelsize)    # fontsize of the x and y labels
-#%matplotlib inline  
+plt.rc('legend',fontsize=12) 
+plt.rc('axes', labelsize=labelsize)
 
-#pd.set_option('display.max_rows', 100)
 pd.set_option('display.max_columns', 20)
 
 graphing_colours = [
@@ -61,21 +58,17 @@ graphing_colours = [
 ,"#DADADA"]
 
 sns.set_palette(graphing_colours)
-#sns.palplot(sns.color_palette())
-###--------
 
-
-
-#def load_data(file_path='../data/module_dataset_anonymized2.xlsx'):
-#    dataset = pd.read_excel(file_path)
-#    return dataset
-
-dataset = pd.read_excel('../data/module_dataset_anonymized2.xlsx')
 
 #-----------------Functions----------------
+#Load data.
+#Part 1a. 
+dataset = pd.read_excel('data/module_dataset_anonymized2.xlsx')
+
+
 #evaluate dataset
 #part 2
-def data_summary():
+def data_summary(): #will return a number of statistical outputs from the dataset
 
     return [print("Number of papers: \n{}".format(dataset['id'].nunique())),
     print("Oceans investigated: \n{}".format(sorted(dataset['ocean'].unique().tolist()))),
@@ -84,14 +77,14 @@ def data_summary():
     print("Mean number of citations: \n{}".format(dataset[['id','citation count']].drop_duplicates()['citation count'].mean().round(1))),
     print("Number of international publications: \n{}".format(dataset[dataset['international']=='Y']['id'].nunique()))]
 
-def missing_data():
+def missing_data(): #Will return the number of rows with missing data for each column
     return pd.DataFrame(dataset.isna().sum()).reset_index().rename(columns={'index':'column',0:'Missing data'})
 
-def publications_by_year():
+def publications_by_year(): #Will return the number of publications by year
     return pd.DataFrame(dataset.groupby(['pub year'])['id'].nunique()).reset_index().rename(columns={'id':'publication count'})
 
 
-def country_list():
+def country_list(): #Will return all unique countries/territories in the dataset
     return sorted(dataset['Country'].unique().tolist())
     
 #Shared investigation
