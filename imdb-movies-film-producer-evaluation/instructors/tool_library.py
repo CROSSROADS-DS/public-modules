@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 
 def load_movie_data():
+    """load data into notebook and display the first five rows"""
     df = pd.read_csv("./data/movies.csv").dropna(axis=0)
     display(df.head())
     return df
@@ -22,6 +23,7 @@ class SideBySide(object):
            ]) + "</div>"
 
 def show_dataset_scope(data):
+    """produce and display summary statistics for the data"""
     display(SideBySide(pd.DataFrame({
         "Value": [
             len(data),
@@ -46,19 +48,23 @@ def show_dataset_scope(data):
     pd.DataFrame({"# of Movies per Company (top 10)": data["company"].value_counts().head(n=10)})))
 
 def plot_number_of_movies_by_genre(data):
+    """Number of movies by genre in the dataset as a barplot"""
     data['genre'].value_counts().plot.bar(title="Number of Movies by Genre")
     plt.show()
 
 def show_movies_in_genre(data, genre):
+    """will display in tabular form the movies for the specified genre"""
     display(data[data["genre"] == genre])
 
 def without_small_categories(data, limit=30, by="Enter a field in the 'by' option."):
+    """removes variable entries with 30 or fewer items in the dataset (e.g., by=genres with 30 or fewer films"""
     vc = data[by].value_counts()
 
     return data[data[by].isin(vc[vc > limit].index)]
 
 
 def show_recent_summary_details(df, genres, property, years, category_property="genre"):
+    """will display summary statistics for movie scores (i.e., ratings) specified genres over a specified time period in years"""
     target_gt_year = df["year"].max() - years
 
     stat_columns = [(genre, df[ (df[category_property] == genre) & (df["year"] > target_gt_year)][property]) for genre in genres]
@@ -78,6 +84,7 @@ def show_recent_summary_details(df, genres, property, years, category_property="
     display(SideBySide(*dataframes))
 
 def show_plot_over_time(df, genres, property, category_property="genre", time_property="year"):
+    """Will produce a line graph of specified genres over a specified number of years, for a given property (e.g., gross income)"""
     rating_counts = df[
         df[category_property].isin(list(genres))
         ].groupby([time_property, category_property])[[property]].median().unstack()
@@ -102,6 +109,8 @@ def show_plot_over_time(df, genres, property, category_property="genre", time_pr
     plt.show()
 
 def compare_categories(data, size=..., category=..., compare=..., compared_by=..., chart_by=...):
+    """A function that produces all of the previous function output, wrapped into a single function. It can produce a bar graph of numbers of movies, 
+    summary scores of movies, and line graphs of numeric fields (e.g., scores)"""
     if size == ...:
         print("You must define the minimum size for categories. For example, use size=30 to specify a minimum size of 30")
         return
